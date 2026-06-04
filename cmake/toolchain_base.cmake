@@ -44,3 +44,27 @@ if (NOT DEFINED TEMPEST_TOOLCHAIN_PATH_MESSAGE_SHOWN)
 		)
 	endif()
 endif()
+
+macro(tempest_linker_script_set TARGET LINKER_SCRIPT)
+	string(APPEND CMAKE_EXE_LINKER_FLAGS " -T ${LINKER_SCRIPT}")
+
+	get_target_property(CURR_LINK_DEPS ${TARGET} LINK_DEPENDS)
+
+	if (CURR_LINK_DEPS)
+		string(APPEND CURR_LINK_DEPS " ${LINKER_SCRIPT}")
+	else()
+		set(CURR_LINK_DEPS ${LINKER_SCRIPT})
+	endif()
+
+	set_target_properties(
+		${TARGET} PROPERTIES
+		LINK_DEPENDS ${CURR_LINK_DEPS}
+	)
+endmacro()
+
+macro(tempest_target_size_print TARGET)
+	add_custom_command(
+		TARGET ${TARGET}
+		POST_BUILD COMMAND ${CMAKE_SIZE_UTIL} -B $<TARGET_FILE:${TARGET}>
+	)
+endmacro()

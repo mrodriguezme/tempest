@@ -20,4 +20,48 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+message(STATUS "Selected application \"${TEMPEST_APP}\"")
+
+add_executable(tempest_app)
+
+set_target_properties(
+	tempest_app PROPERTIES
+	OUTPUT_NAME ${TEMPEST_APP}
+)
+
+target_compile_options(
+	tempest_app PRIVATE
+	-ffunction-sections
+	-fdata-sections
+	-Wall
+	-Wextra
+)
+
+target_link_options(
+	tempest_app PRIVATE
+	-Wl,--gc-sections
+	-Wl,-Map=${TEMPEST_APP}.map
+	-specs=picolibc.specs
+)
+
 add_subdirectory(${TEMPEST_APP})
+target_link_libraries(tempest_app PRIVATE tempest_board)
+
+get_property(
+	LINKER_SCRIPT
+	TARGET tempest_app
+	PROPERTY CUSTOM_LINKER_SCRIPT
+)
+
+if (NOT LINKER_SCRIPT)
+	get_property(
+		LINKER_SCRIPT
+		TARGET tempest_board
+		PROPERTY DEFAULT_LINKER_SCRIPT
+	)
+endif()
+
+message(STATUS "Using linker script: ${LINKER_SCRIPT}")
+tempest_linker_script_set(tempest_app ${LINKER_SCRIPT})
+
+tempest_target_size_print(tempest_app)

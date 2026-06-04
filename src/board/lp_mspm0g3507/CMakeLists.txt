@@ -33,7 +33,13 @@ tempest_arch_core_select(
 		systick
 )
 
+file(
+	COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets/host/vscode/launch.json"
+	DESTINATION "${CMAKE_SOURCE_DIR}/.vscode"
+)
+
 set_property(
 	TARGET tempest_board
-	PROPERTY TEMPEST_LINKER_SCRIPT_DEFAULT ${CMAKE_CURRENT_SOURCE_DIR}/assets/default_linker_script.ld
+	PROPERTY DEFAULT_LINKER_SCRIPT
+	${CMAKE_CURRENT_SOURCE_DIR}/assets/default_linker_script.ld
 )

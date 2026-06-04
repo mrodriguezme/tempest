@@ -21,3 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+__flash = 0x00000000;
+__flash_size = 128K;
+__ram = 0x20200000;
+__ram_size = 32K;
+__stack_size = 512;
+
+INCLUDE picolibc.ld

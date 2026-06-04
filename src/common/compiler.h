@@ -23,5 +23,10 @@
 #pragma once
 
 #ifdef __GNUC__
-#define PLACE_IN_SECTION(sect) __attribute__((section(sect)))
+#define STATIC_ALWAYS_INLINE __attribute__((always_inline)) static inline
+#define WEAK_SYMBOL __attribute__((weak))
+#define ALIAS(name) __attribute__((alias(name)))
+#define PLACE_IN_SECTION(name) __attribute__((section(name)))
+#else
+#error "Unsupported compiler!"
 #endif // __GNUC__

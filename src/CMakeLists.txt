@@ -23,6 +23,9 @@
 add_library(tempest_arch INTERFACE)
 add_library(tempest_board INTERFACE)
 
+target_include_directories(tempest_board INTERFACE .)
+target_include_directories(tempest_arch INTERFACE .)
+
 add_subdirectory(arch/${TEMPEST_ARCH})
 add_subdirectory(board/${TEMPEST_BOARD})
-add_subdirectory(app/${TEMPEST_APP})
+add_subdirectory(app)

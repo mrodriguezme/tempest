@@ -20,13 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-message(STATUS "Selected application \"blinky\"")
-
-add_executable(blinky)
-
 target_sources(
-	blinky PRIVATE
+	tempest_app PRIVATE
 	main.c
 )
-
-target_link_libraries(blinky PRIVATE board)
