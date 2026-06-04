@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 1
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "description": "Default build using Ninja generator",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "TEMPEST_USING_CMAKE_PRESET": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      },
+      "binaryDir": "${sourceDir}/build_${presetName}"
+    },
+    {
+      "name": "dbg",
+      "hidden": true,
+      "inherits": "base",
+      "description": "Base configuration for Debug builds",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Debug"
+        }
+      }
+    },
+    {
+      "name": "rel",
+      "hidden": true,
+      "inherits": "base",
+      "description": "Base configuration for Release builds",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        }
+      }
+    },
+    {
+      "name": "gcc",
+      "hidden": true,
+      "description": "Base configuration for gcc",
+      "toolchainFile": "${sourceDir}/cmake/toolchain_gcc.cmake"
+    },
+    {
+      "name": "clang",
+      "hidden": true,
+      "description": "Base configuration for clang",
+      "toolchainFile": "${sourceDir}/cmake/toolchain_clang.cmake"
+    },
+    {
+      "name": "board_lp_mspm0g3507",
+      "hidden": true,
+      "description": "LP-MSPM0G3507 board",
+      "cacheVariables": {
+        "TEMPEST_BOARD": {
+          "type": "STRING",
+          "value": "lp_mspm0g3507"
+        }
+      }
+    },
+    {
+      "name": "app_blinky",
+      "hidden": true,
+      "description": "Blinky application",
+      "cacheVariables": {
+        "TEMPEST_APP": {
+          "type": "STRING",
+          "value": "blinky"
+        }
+      }
+    },
+    {
+      "name": "arch_arm",
+      "hidden": true,
+      "description": "Specify architecture as arm",
+      "cacheVariables": {
+        "TEMPEST_ARCH": {
+          "type": "STRING",
+          "value": "arm"
+        },
+        "TEMPEST_TOOLCHAIN_TRIPLET": {
+          "type": "STRING",
+          "value": "arm-none-eabi"
+        },
+        "CMAKE_SYSTEM_PROCESSOR": {
+          "type": "STRING",
+          "value": "ARM"
+        }
+      }
+    },
+    {
+      "name": "blinky_mspm0g3507_gcc_dbg",
+      "hidden": false,
+      "displayName": "Blinky application running on LP-MSPM0G3507 compiled with gcc in debug mode",
+      "inherits": [
+        "app_blinky",
+        "dbg",
+        "gcc",
+        "board_lp_mspm0g3507",
+        "arch_arm"
+      ]
+    }
+  ]
+}
