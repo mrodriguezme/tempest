@@ -20,9 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-message(STATUS "Selected board \"LP-MSPM0G3507\"")
+add_subdirectory(${TEMPEST_MCU_MODEL})
 
-file(
-	COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets/host/vscode/launch.json"
-	DESTINATION "${CMAKE_SOURCE_DIR}/.vscode"
+set_property(
+	TARGET tempest_mcu
+	PROPERTY DEFAULT_LINKER_SCRIPT
+	${CMAKE_CURRENT_SOURCE_DIR}/${TEMPEST_MCU_MODEL}/default_linker_script.ld
+)
+
+set_property(
+	TARGET tempest_mcu
+	PROPERTY DEFAULT_STARTUP_FILE
+	${CMAKE_CURRENT_SOURCE_DIR}/${TEMPEST_MCU_MODEL}/default_startup.c
 )

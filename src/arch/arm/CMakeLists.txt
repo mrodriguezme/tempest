@@ -27,7 +27,7 @@ function(tempest_arch_core_select CORE)
 	set(oneValueArgs)
     	set(multiValueArgs FEATURES)
 
-	message(STATUS "Board selected ARM core \"${CORE}\"")
+	message(STATUS "MCU selected ARM core \"${CORE}\"")
 
     	cmake_parse_arguments(
         	ARCH
@@ -37,14 +37,9 @@ function(tempest_arch_core_select CORE)
         	${ARGN}
     	)
 
-    	target_compile_definitions(
-		tempest_arch
-		INTERFACE
-		HAVE_ARCH_${CORE}=1
-	)
-
     	foreach(FEATURE IN LISTS ARCH_FEATURES)
 		string(TOUPPER "${FEATURE}" FEATURE_UPPER)
+		message(STATUS "MCU is enabling feature \"${FEATURE}\"")
 
 		target_compile_definitions(
 			tempest_arch
@@ -53,10 +48,17 @@ function(tempest_arch_core_select CORE)
 		)
 	endforeach()
 
-	string(REPLACE "_" "-" CORE "${CORE}")
-
 	target_compile_options(tempest_arch INTERFACE -mcpu=${CORE})
 	target_link_options(tempest_arch INTERFACE -mcpu=${CORE})
+
+	string(TOUPPER "${CORE}" CORE_UPPER)
+	string(REPLACE "-" "_" CORE_UPPER "${CORE_UPPER}")
+
+    	target_compile_definitions(
+		tempest_arch
+		INTERFACE
+		HAVE_ARCH_${CORE_UPPER}=1
+	)
 
 	target_link_libraries(tempest_board INTERFACE tempest_arch)
 endfunction()

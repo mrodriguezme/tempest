@@ -20,9 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-message(STATUS "Selected board \"LP-MSPM0G3507\"")
-
-file(
-	COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets/host/vscode/launch.json"
-	DESTINATION "${CMAKE_SOURCE_DIR}/.vscode"
+tempest_arch_core_select(
+	cortex-m0plus
+	FEATURES
+		systick
 )

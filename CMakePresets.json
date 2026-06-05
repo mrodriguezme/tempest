@@ -60,17 +60,6 @@
       "toolchainFile": "${sourceDir}/cmake/toolchain_clang.cmake"
     },
     {
-      "name": "board_lp_mspm0g3507",
-      "hidden": true,
-      "description": "LP-MSPM0G3507 board",
-      "cacheVariables": {
-        "TEMPEST_BOARD": {
-          "type": "STRING",
-          "value": "lp_mspm0g3507"
-        }
-      }
-    },
-    {
       "name": "app_blinky",
       "hidden": true,
       "description": "Blinky application",
@@ -101,6 +90,38 @@
       }
     },
     {
+        "name": "mcu_mspm0g3507",
+        "hidden": true,
+        "description": "MSPM0G3507 MCU",
+        "inherits": ["arch_arm"],
+        "cacheVariables": {
+            "TEMPEST_MCU_FAMILY": {
+                "type": "STRING",
+                "value": "mspm0"
+            },
+            "TEMPEST_MCU_MODEL": {
+              "type": "STRING",
+              "value": "3507"
+            },
+            "TEMPEST_MCU_SERIES": {
+                "type": "STRING",
+                "value": "g"
+            }
+        }
+    },
+    {
+      "name": "board_lp_mspm0g3507",
+      "hidden": true,
+      "description": "LP-MSPM0G3507 board",
+      "inherits": ["mcu_mspm0g3507"],
+      "cacheVariables": {
+        "TEMPEST_BOARD": {
+          "type": "STRING",
+          "value": "lp_mspm0g3507"
+        }
+      }
+    },
+    {
       "name": "blinky_mspm0g3507_gcc_dbg",
       "hidden": false,
       "displayName": "Blinky application running on LP-MSPM0G3507 compiled with gcc in debug mode",
@@ -108,8 +129,7 @@
         "app_blinky",
         "dbg",
         "gcc",
-        "board_lp_mspm0g3507",
-        "arch_arm"
+        "board_lp_mspm0g3507"
       ]
     }
   ]

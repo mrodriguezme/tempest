@@ -20,9 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-message(STATUS "Selected board \"LP-MSPM0G3507\"")
-
-file(
-	COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets/host/vscode/launch.json"
-	DESTINATION "${CMAKE_SOURCE_DIR}/.vscode"
+target_sources(
+	tempest_mcu INTERFACE
+	gpio.c
 )
+
+add_subdirectory(${TEMPEST_MCU_SERIES})
+target_include_directories(tempest_mcu INTERFACE ${TEMPEST_MCU_SERIES})

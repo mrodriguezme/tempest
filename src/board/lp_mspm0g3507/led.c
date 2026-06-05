@@ -20,17 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "board/led.h"
 
-#include <stdint.h>
+#include "mcu/mspm0/gpio.h"
+#include "mcu/mspm0/iomux.h"
 
-typedef unsigned int uint;
-typedef uintptr_t uintptr;
-typedef uint64_t u64;
-typedef int64_t s64;
-typedef uint32_t u32;
-typedef int32_t s32;
-typedef uint16_t u16;
-typedef int16_t s16;
-typedef uint8_t u8;
-typedef int8_t s8;
+void board_blinky_led_init(void)
+{
+	const struct mspm0_iomux_pin_cfg = {
+		.
+	}
+}
+
+void board_blinky_led_turn_on(void)
+{
+
+}

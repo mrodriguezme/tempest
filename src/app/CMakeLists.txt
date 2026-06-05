@@ -56,12 +56,29 @@ get_property(
 if (NOT LINKER_SCRIPT)
 	get_property(
 		LINKER_SCRIPT
-		TARGET tempest_board
+		TARGET tempest_mcu
 		PROPERTY DEFAULT_LINKER_SCRIPT
 	)
 endif()
 
-message(STATUS "Using linker script: ${LINKER_SCRIPT}")
+get_property(
+	STARTUP_FILE
+	TARGET tempest_app
+	PROPERTY CUSTOM_STARTUP_FILE
+)
+
+if (NOT STARTUP_FILE)
+	get_property(
+		STARTUP_FILE
+		TARGET tempest_mcu
+		PROPERTY DEFAULT_STARTUP_FILE
+	)
+endif()
+
+target_sources(tempest_app PRIVATE ${STARTUP_FILE})
 tempest_linker_script_set(tempest_app ${LINKER_SCRIPT})
+
+message(STATUS "Using linker script: ${LINKER_SCRIPT}")
+message(STATUS "Using startup file: ${STARTUP_FILE}")
 
 tempest_target_size_print(tempest_app)

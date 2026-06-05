@@ -21,3 +21,6 @@
 // SOFTWARE.
 
 #pragma once
+
+#define set_val_by_mask(dst, mask, shift, val) \
+	({ (dst) = ((dst) & ~(mask)) | (((val) << (shift)) & (mask)); })

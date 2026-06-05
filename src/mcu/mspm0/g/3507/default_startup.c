@@ -65,6 +65,8 @@ enum {
 };
 
 extern void _start(void);
+extern void board_init(void);
+
 extern u32 __stack;
 
 #define ISR WEAK_SYMBOL ALIAS("isr_unhandled")
@@ -101,9 +103,15 @@ ISR void isr_dma(void);
 
 #undef ISR
 
+void isr_reset(void)
+{
+	//board_init();
+	_start();
+}
+
 /*
  * @brief Called when an interrupt fires and the appropriate interrupt handler
- * has not been overridden by application code.
+ * has not been overridden by board code.
  */
 void isr_unhandled(void)
 {
@@ -115,7 +123,7 @@ const void *const __interrupt_vector[] = {
 	// clang-format off
 
 	[EXC_SP_MAIN]		= &__stack,
-	[EXC_RESET]		= _start,
+	[EXC_RESET]		= isr_reset,
 	[EXC_NMI]		= isr_nmi,
 	[EXC_HARDFAULT]		= isr_hardfault,
 	[EXC_SVCALL]		= isr_svcall,
