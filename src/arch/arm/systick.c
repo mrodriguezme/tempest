@@ -20,40 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "mspm0/gpio.h"
-#include "board/board.h"
-#include "board/led.h"
-#include "arch/arm/systick.h"
+#include "systick.h"
+#include "nvic.h"
 
-static u64 board_ticks = 0;
-
-void isr_systick(void)
+void arch_arm_systick_init(const struct arch_arm_systick_cfg *const cfg)
 {
-	board_ticks++;
+	arch_arm_systick_halt(cfg->nvic_irq);
+	mmio_write32(SYST_CVR, 0);
+
+	mmio_write32(SYST_RVR, cfg->reload_val & SYST_RVR_RELOAD_MASK);
+	arch_arm_nvic_irq_enable(cfg->nvic_irq);
+
+	mmio_write32(SYST_CSR, 0x7);
 }
 
-board_tick_type board_ticks_get(void)
+void arch_arm_systick_halt(const u32 nvic_irq)
 {
-	return board_ticks;
-}
-
-void board_init(void)
-{
-	mspm0_gpio_reset(GPIO0_BASE);
-	mspm0_gpio_power_enable(GPIO0_BASE);
-
-	mspm0_gpio_reset(GPIO1_BASE);
-	mspm0_gpio_power_enable(GPIO1_BASE);
-
-	board_blinky_led_init();
-
-	const struct arch_arm_systick_cfg cfg = {
-		// clang-format off
-
-		.nvic_irq	= (1 << 15),
-		.reload_val	= (32000000 / 1000) - 1
-
-		// clang-format on
-	};
-	arch_arm_systick_init(&cfg);
+	arch_arm_nvic_irq_disable(nvic_irq);
+	mmio_clr32(SYST_CSR, SYST_CSR_ENABLE_BIT);
+	arch_arm_nvic_irq_clear_pending(nvic_irq);
 }

@@ -22,5 +22,29 @@
 
 #pragma once
 
-#define HAS_GPIO0
-#define HAS_GPIO1
+#include "common/mmio.h"
+
+// clang-format off
+
+#define NVIC_ISER	(UINT32_C(0xE000E100))
+#define NVIC_ICER	(UINT32_C(0xE000E180))
+#define NVIC_ISPR	(UINT32_C(0xE000E200))
+#define NVIC_ICPR	(UINT32_C(0xE000E280))
+#define NVIC_IPRN	(UINT32_C(0xE000E400))
+
+STATIC_ALWAYS_INLINE void arch_arm_nvic_irq_enable(const u32 irq)
+{
+	mmio_write32(NVIC_ISER, irq);
+}
+
+STATIC_ALWAYS_INLINE void arch_arm_nvic_irq_disable(const u32 irq)
+{
+	mmio_write32(NVIC_ICER, irq);
+}
+
+STATIC_ALWAYS_INLINE void arch_arm_nvic_irq_clear_pending(const u32 irq)
+{
+	mmio_write32(NVIC_ICPR, irq);
+}
+
+// clang-format on

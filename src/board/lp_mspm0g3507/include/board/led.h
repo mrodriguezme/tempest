@@ -21,3 +21,8 @@
 // SOFTWARE.
 
 #pragma once
+
+void board_blinky_led_init(void);
+void board_blinky_led_turn_on(void);
+void board_blinky_led_turn_off(void);
+void board_blinky_led_toggle(void);

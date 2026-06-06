@@ -22,6 +22,14 @@
 
 message(STATUS "Selected board \"LP-MSPM0G3507\"")
 
+target_sources(
+	tempest_board INTERFACE
+	board.c
+	led.c
+)
+
+target_include_directories(tempest_board INTERFACE include)
+
 file(
 	COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets/host/vscode/launch.json"
 	DESTINATION "${CMAKE_SOURCE_DIR}/.vscode"

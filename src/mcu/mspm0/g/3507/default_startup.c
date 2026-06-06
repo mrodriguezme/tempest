@@ -105,7 +105,7 @@ ISR void isr_dma(void);
 
 void isr_reset(void)
 {
-	//board_init();
+	board_init();
 	_start();
 }
 

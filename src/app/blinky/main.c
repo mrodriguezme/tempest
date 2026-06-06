@@ -21,9 +21,20 @@
 // SOFTWARE.
 
 #include <stdlib.h>
+#include <stdbool.h>
+
+#include "board/board.h"
+#include "board/led.h"
 
 int main(void)
 {
-    for (;;);
-    return EXIT_FAILURE;
+	board_tick_type next_toggle_ms = board_ticks_get() + 500;
+
+	for (;;) {
+		if (board_ticks_get() >= next_toggle_ms) {
+			board_blinky_led_toggle();
+			next_toggle_ms += 500;
+		}
+	}
+	return EXIT_FAILURE;
 }

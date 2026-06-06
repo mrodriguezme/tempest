@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 #include "common/mmio.h"
 #include "registers/gpio.h"
 
@@ -45,6 +47,31 @@ STATIC_ALWAYS_INLINE void mspm0_gpio_power_disable(const uintptr gpio)
 		     MSPM0_GPIO_PWREN_KEY << GPIO_REG_PWREN_KEY_SHIFT);
 }
 
+STATIC_ALWAYS_INLINE bool mspm0_gpio_power_enabled(const uintptr gpio)
+{
+	return mmio_read32(gpio + GPIO_REG_PWREN) & GPIO_REG_PWREN_ENABLE_BIT;
+}
+
+STATIC_ALWAYS_INLINE bool mspm0_gpio_power_disabled(const uintptr gpio)
+{
+	return !mspm0_gpio_power_enabled(gpio);
+}
+
+STATIC_ALWAYS_INLINE void mspm0_gpio_power_set_disabled(const uintptr gpio,
+							const bool disable)
+{
+	if (disable)
+		mspm0_gpio_power_disable(gpio);
+	else
+		mspm0_gpio_power_enable(gpio);
+}
+
+STATIC_ALWAYS_INLINE void mspm0_gpio_power_set_enabled(const uintptr gpio,
+						       const bool enabled)
+{
+	mspm0_gpio_power_set_disabled(gpio, !enabled);
+}
+
 STATIC_ALWAYS_INLINE void mspm0_gpio_reset(const uintptr gpio)
 {
 	mmio_write32(gpio + GPIO_REG_RSTCTL,
@@ -54,18 +81,62 @@ STATIC_ALWAYS_INLINE void mspm0_gpio_reset(const uintptr gpio)
 			     GPIO_REG_PWREN_RSTCTL_RESETASSERT_BIT);
 }
 
-STATIC_ALWAYS_INLINE void mspm0_gpio_pin_clr(const uintptr gpio, const u32 pins)
+STATIC_ALWAYS_INLINE bool mspm0_gpio_reset_since_stky_clr(const uintptr gpio)
+{
+	return mmio_read32(gpio + GPIO_REG_STAT) & GPIO_REG_STAT_RESETSTKY_BIT;
+}
+
+STATIC_ALWAYS_INLINE void
+mspm0_gpio_periph_clk_override_enable(const uintptr gpio)
+{
+	mmio_set32(gpio + GPIO_REG_CLKOVR, GPIO_REG_CLKOVR_OVERRIDE_BIT);
+}
+
+STATIC_ALWAYS_INLINE void
+mspm0_gpio_periph_clk_override_disable(const uintptr gpio)
+{
+	mmio_clr32(gpio + GPIO_REG_CLKOVR, GPIO_REG_CLKOVR_OVERRIDE_BIT);
+}
+
+STATIC_ALWAYS_INLINE bool
+mspm0_gpio_periph_clk_override_enabled(const uintptr gpio)
+{
+	return mmio_read32(gpio + GPIO_REG_CLKOVR) &
+	       GPIO_REG_CLKOVR_OVERRIDE_BIT;
+}
+
+STATIC_ALWAYS_INLINE bool
+mspm0_gpio_periph_clk_override_disabled(const uintptr gpio)
+{
+	return !mspm0_gpio_periph_clk_override_enabled(gpio);
+}
+
+STATIC_ALWAYS_INLINE void mspm0_gpio_pins_output_enable(const uintptr gpio,
+							const u32 pins)
+{
+	mmio_write32(gpio + GPIO_REG_DOESET31_0, pins);
+}
+
+STATIC_ALWAYS_INLINE void mspm0_gpio_pins_output_disable(const uintptr gpio,
+							 const u32 pins)
+{
+	mmio_write32(gpio + GPIO_REG_DOECLR31_0, pins);
+}
+
+STATIC_ALWAYS_INLINE void mspm0_gpio_pins_clr(const uintptr gpio,
+					      const u32 pins)
 {
 	mmio_write32(gpio + GPIO_REG_DOUTCLR31_0, pins);
 }
 
-STATIC_ALWAYS_INLINE void mspm0_gpio_pin_set(const uintptr gpio, const u32 pins)
+STATIC_ALWAYS_INLINE void mspm0_gpio_pins_set(const uintptr gpio,
+					      const u32 pins)
 {
 	mmio_write32(gpio + GPIO_REG_DOUTSET31_0, pins);
 }
 
-STATIC_ALWAYS_INLINE void mspm0_gpio_pin_toggle(const uintptr gpio,
-						const u32 pins)
+STATIC_ALWAYS_INLINE void mspm0_gpio_pins_toggle(const uintptr gpio,
+						 const u32 pins)
 {
 	mmio_write32(gpio + GPIO_REG_DOUTTGL31_0, pins);
 }

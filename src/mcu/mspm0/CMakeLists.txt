@@ -27,3 +27,8 @@ target_sources(
 
 add_subdirectory(${TEMPEST_MCU_SERIES})
 target_include_directories(tempest_mcu INTERFACE ${TEMPEST_MCU_SERIES})
+
+target_include_directories(
+	tempest_mcu INTERFACE
+	${TEMPEST_MCU_SERIES}/${TEMPEST_MCU_MODEL}
+)

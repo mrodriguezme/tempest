@@ -28,25 +28,25 @@
 
 #define DEFINE_MMIO_HELPERS(bitwidth)                                         \
 	STATIC_ALWAYS_INLINE u##bitwidth mmio_read##bitwidth(                 \
-		const uintptr_t addr)                                         \
+		const uintptr addr)                                           \
 	{                                                                     \
 		return *((volatile u##bitwidth *const)addr);                  \
 	}                                                                     \
                                                                               \
-	STATIC_ALWAYS_INLINE void mmio_write##bitwidth(const uintptr_t addr,  \
+	STATIC_ALWAYS_INLINE void mmio_write##bitwidth(const uintptr addr,    \
 						       const u##bitwidth val) \
 	{                                                                     \
 		*((volatile u##bitwidth *const)addr) = val;                   \
 	}                                                                     \
                                                                               \
-	STATIC_ALWAYS_INLINE void mmio_set##bitwidth(const uintptr_t addr,    \
+	STATIC_ALWAYS_INLINE void mmio_set##bitwidth(const uintptr addr,      \
 						     const u##bitwidth bits)  \
 	{                                                                     \
 		const u##bitwidth val = mmio_read##bitwidth(addr);            \
 		mmio_write##bitwidth(addr, val | bits);                       \
 	}                                                                     \
                                                                               \
-	STATIC_ALWAYS_INLINE void mmio_clr##bitwidth(const uintptr_t addr,    \
+	STATIC_ALWAYS_INLINE void mmio_clr##bitwidth(const uintptr addr,      \
 						     const u##bitwidth bits)  \
 	{                                                                     \
 		const u##bitwidth val = mmio_read##bitwidth(addr);            \
@@ -54,7 +54,7 @@
 	}                                                                     \
                                                                               \
 	STATIC_ALWAYS_INLINE void mmio_rmw_mask##bitwidth(                    \
-		const uintptr_t addr, const u##bitwidth mask,                 \
+		const uintptr addr, const u##bitwidth mask,                   \
 		const u##bitwidth shift, const u##bitwidth val)               \
 	{                                                                     \
 		u##bitwidth dst = mmio_read##bitwidth(addr);                  \

@@ -21,3 +21,48 @@
 // SOFTWARE.
 
 #pragma once
+
+#ifdef HAVE_SYSTICK
+
+#include "common/mmio.h"
+#include "common/types.h"
+
+// clang-format off
+
+#define SYST_CSR	(UINT32_C(0xE000E010))
+#define SYST_RVR	(UINT32_C(0xE000E014))
+#define SYST_CVR	(UINT32_C(0xE000E018))
+#define SYST_CALIB	(UINT32_C(0xE000E01C))
+
+#define SYST_CSR_COUNTFLAG_BIT	(UINT32_C(1) << 16)
+#define SYST_CSR_CLKSOURCE_BIT	(UINT32_C(1) << 2)
+#define SYST_CSR_TICKINT_BIT	(UINT32_C(1) << 1)
+#define SYST_CSR_ENABLE_BIT	(UINT32_C(1) << 0)
+
+#define SYST_RVR_RELOAD_SHIFT	(UINT32_C(0))
+#define SYST_RVR_RELOAD_MASK	(UINT32_C(0x00FFFFFF))
+
+#define SYST_CVR_CURRENT_SHIFT	(UINT32_C(0))
+#define SYST_CVR_CURRENT_MASK	(UINT32_C(0x00FFFFFF))
+
+#define SYST_CALIB_NOREF_BIT	(UINT32_C(1) << 31)
+#define SYST_CALIB_SKEW		(UINT32_C(1) << 30)
+#define SYST_CALIB_TENMS_SHIFT	(UINT32_C(0))
+#define SYST_CALIB_TENMS_MASK	(UINT32_C(0x00FFFFFF))
+
+#define ARCH_ARM_SYSTICK_USE_EXT_CLK	(UINT32_C(0))
+#define ARCH_ARM_SYSTICK_USE_CPU_CLK	(SYST_CSR_CLKSOURCE_BIT)
+
+// clang-format on
+
+struct arch_arm_systick_cfg {
+	u32 use_external_clk;
+	u32 reload_val;
+	u32 interrupt_enabled;
+	u32 nvic_irq;
+};
+
+void arch_arm_systick_init(const struct arch_arm_systick_cfg *cfg);
+void arch_arm_systick_halt(const u32 nvic_irq);
+
+#endif // HAVE_SYSTICK

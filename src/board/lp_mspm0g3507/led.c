@@ -25,14 +25,49 @@
 #include "mcu/mspm0/gpio.h"
 #include "mcu/mspm0/iomux.h"
 
+// clang-format off
+
+#define PIN_LED1_GPIO_INST	(GPIO0_BASE)
+#define PIN_LED1_GPIO_PIN	(GPIO_PIN_PA0)
+#define PIN_LED1_IOMUX_PINCM	(IOMUX_PINCM_IDX_PA0)
+
+// clang-format on
+
 void board_blinky_led_init(void)
 {
-	const struct mspm0_iomux_pin_cfg = {
-		.
-	}
+	const struct mspm0_iomux_pincm_cfg cfg = {
+		// clang-format off
+
+		.wcomp	= IOMUX_PINCM_WAKEUP_ON_UNUSED,
+		.wuen	= IOMUX_PINCM_WAKEUP_DISABLED,
+		.inv	= IOMUX_PINCM_DATA_INVERSION_DISABLED,
+		.hiz1	= IOMUX_PINCM_OPEN_DRAIN_DISABLED,
+		.drv	= IOMUX_PINCM_DRIVE_STRENGTH_LOW,
+		.hysten	= IOMUX_PINCM_HYSTERESIS_DISABLED,
+		.inena	= IOMUX_PINCM_INPUT_DISABLED,
+		.pipu	= IOMUX_PINCM_PULL_UP_RESISTOR_DISABLED,
+		.pipd	= IOMUX_PINCM_PULL_DOWN_RESISTOR_DISABLED,
+		.pf	= IOMUX_PINCM_PF_GPIO
+
+		// clang-format on
+	};
+	mspm0_iomux_pincm_init(PIN_LED1_IOMUX_PINCM, &cfg);
+
+	mspm0_gpio_pins_clr(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
+	mspm0_gpio_pins_output_enable(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
 }
 
 void board_blinky_led_turn_on(void)
 {
+	mspm0_gpio_pins_set(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
+}
 
+void board_blinky_led_turn_off(void)
+{
+	mspm0_gpio_pins_clr(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
+}
+
+void board_blinky_led_toggle(void)
+{
+	mspm0_gpio_pins_toggle(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
 }

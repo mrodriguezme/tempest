@@ -62,3 +62,5 @@ function(tempest_arch_core_select CORE)
 
 	target_link_libraries(tempest_board INTERFACE tempest_arch)
 endfunction()
+
+target_sources(tempest_arch INTERFACE systick.c)

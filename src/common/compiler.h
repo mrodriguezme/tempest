@@ -27,6 +27,7 @@
 #define WEAK_SYMBOL __attribute__((weak))
 #define ALIAS(name) __attribute__((alias(name)))
 #define PLACE_IN_SECTION(name) __attribute__((section(name)))
+#define NODISCARD __attribute__((warn_unused_result))
 #else
 #error "Unsupported compiler!"
 #endif // __GNUC__

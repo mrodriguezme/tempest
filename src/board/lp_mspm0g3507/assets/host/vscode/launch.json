@@ -11,7 +11,7 @@
       "interface": "swd",
       "device": "MSPM0G3507",
       "runToEntryPoint": "main",
-      "svdFile": "${workspaceFolder}/src/board/lp_mspm0g3507/assets/MSPM0G350X.svd",
+      "svdFile": "${workspaceFolder}/src/mcu/mspm0/svd/MSPM0G350X.svd",
       "configFiles": [
         "${workspaceFolder}/src/board/lp_mspm0g3507/assets/openocd.cfg"
       ]

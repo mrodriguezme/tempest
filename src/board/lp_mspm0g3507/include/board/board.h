@@ -22,4 +22,10 @@
 
 #pragma once
 
+#include "common/compiler.h"
+#include "common/types.h"
+
+typedef u64 board_tick_type;
+
 void board_init(void);
+board_tick_type board_ticks_get(void);

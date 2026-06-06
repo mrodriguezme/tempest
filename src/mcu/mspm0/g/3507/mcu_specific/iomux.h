@@ -20,40 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "mspm0/gpio.h"
-#include "board/board.h"
-#include "board/led.h"
-#include "arch/arm/systick.h"
+#pragma once
 
-static u64 board_ticks = 0;
+enum mspm0_iomux_pincm_idx {
+	// clang-format off
 
-void isr_systick(void)
-{
-	board_ticks++;
-}
+	IOMUX_PINCM_IDX_PA0	= 0,
+	IOMUX_PINCM_IDX_PA1	= 1,
+	IOMUX_PINCM_IDX_PA2	= 6,
+	IOMUX_PINCM_IDX_PA3	= 7
 
-board_tick_type board_ticks_get(void)
-{
-	return board_ticks;
-}
+	// clang-format on
+};
 
-void board_init(void)
-{
-	mspm0_gpio_reset(GPIO0_BASE);
-	mspm0_gpio_power_enable(GPIO0_BASE);
+// clang-format off
 
-	mspm0_gpio_reset(GPIO1_BASE);
-	mspm0_gpio_power_enable(GPIO1_BASE);
+#define IOMUX_PINCM_PF_UNCONNECTED	(0)
+#define IOMUX_PINCM_PF_GPIO		(1)
 
-	board_blinky_led_init();
+#define IOMUX_PINCM_PA0_PF_UART0_TX	(2)
+#define IOMUX_PINCM_PA0_I2C0_SDA	(3)
+#define IOMUX_PINCM_PA0_TIMA0_C0	(4)
+#define IOMUX_PINCM_PA0_TIMA_FAL1	(5)
+#define IOMUX_PINCM_PA0_TIMG8_C1	(6)
+#define IOMUX_PINCM_PA0_FCC_IN		(7)
 
-	const struct arch_arm_systick_cfg cfg = {
-		// clang-format off
+#define IOMUX_PINCM_PA1_UART0_RX	(2)
+#define IOMUX_PINCM_PA1_I2C0_SCL	(3)
+#define IOMUX_PINCM_PA1_TIMA0_C1	(4)
 
-		.nvic_irq	= (1 << 15),
-		.reload_val	= (32000000 / 1000) - 1
-
-		// clang-format on
-	};
-	arch_arm_systick_init(&cfg);
-}
+// clang-format on

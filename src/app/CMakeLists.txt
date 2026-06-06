@@ -35,6 +35,7 @@ target_compile_options(
 	-fdata-sections
 	-Wall
 	-Wextra
+	-Os
 )
 
 target_link_options(
@@ -42,6 +43,7 @@ target_link_options(
 	-Wl,--gc-sections
 	-Wl,-Map=${TEMPEST_APP}.map
 	-specs=picolibc.specs
+	--crt0=minimal
 )
 
 add_subdirectory(${TEMPEST_APP})

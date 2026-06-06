@@ -21,3 +21,12 @@
 // SOFTWARE.
 
 #pragma once
+
+#include <stdint.h>
+
+// clang-format off
+
+#define IOMUX_BASE	(UINT32_C(0x40428000))
+#define IOMUX_PINCM	(UINT32_C(0x4))
+
+// clang-format on
