@@ -22,5 +22,12 @@
 
 #pragma once
 
+#include "common/types.h"
+
 #define set_val_by_mask(dst, mask, shift, val) \
 	({ (dst) = ((dst) & ~(mask)) | (((val) << (shift)) & (mask)); })
+
+#define get_val_by_mask(src, mask, shift) ({ ((src) & (mask)) >> (shift); })
+
+#define mhz_to_hz(mhz) ((u64)(mhz) * UINT64_C(1000000))
+#define sec_to_ms(sec) ((sec) * (1000))

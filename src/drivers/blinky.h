@@ -66,8 +66,8 @@ struct drv_blinky {
 		enum drv_blinky_state state;
 		drv_blinky_tick_type prev_ticks;
 		unsigned int blinks_left;
-		unsigned int period_ticks;
-		unsigned int timeout_ticks;
+		drv_blinky_tick_type period_ticks;
+		drv_blinky_tick_type timeout_ticks;
 	} run;
 
 	struct drv_blinky_timing timing;

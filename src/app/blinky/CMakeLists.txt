@@ -24,3 +24,5 @@ target_sources(
 	tempest_app PRIVATE
 	main.c
 )
+
+target_link_libraries(tempest_app PRIVATE drv_blinky)

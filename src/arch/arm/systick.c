@@ -42,5 +42,5 @@ void arch_arm_systick_init(const struct arch_arm_systick_cfg *const cfg)
 void arch_arm_systick_halt(const u32 nvic_irq)
 {
 	mmio_clr32(SYST_CSR, SYST_CSR_ENABLE_BIT);
-	arch_arm_nvic_irq_disable(nvic_irq);
+	arch_arm_nvic_irq_disable(UINT32_C(1) << nvic_irq);
 }

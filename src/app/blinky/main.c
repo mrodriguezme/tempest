@@ -24,17 +24,34 @@
 #include <stdbool.h>
 
 #include "board/board.h"
-#include "board/led.h"
+#include "board/blinky_led.h"
+#include "drivers/blinky.h"
 
 int main(void)
 {
-	board_tick_type next_toggle_ms = board_ticks_get() + 1000;
+	const struct drv_blinky_ops ops = {
+		// clang-format off
 
-	for (;;) {
-		while (board_ticks_get() <= next_toggle_ms)
-			;
-		board_blinky_led_toggle();
-		next_toggle_ms += 1000;
-	}
+		.off		= board_blinky_led_turn_off,
+		.on		= board_blinky_led_turn_on,
+		.ticks		= board_ticks_get
+
+		// clang-format on
+	};
+
+	struct drv_blinky blinky;
+	drv_blinky_init(&blinky, &ops);
+	drv_blinky_timing_set(&blinky,
+			      &(const struct drv_blinky_timing){
+				      .num_blinks = 1,
+				      .period_ticks = 1000,
+				      .repeat = DRV_BLINKY_REPEAT_ENABLED,
+				      .delay_ticks = 0 });
+
+	drv_blinky_start(&blinky);
+
+	for (;;)
+		drv_blinky_update(&blinky);
+
 	return EXIT_FAILURE;
 }

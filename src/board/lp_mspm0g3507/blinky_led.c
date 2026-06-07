@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "board/led.h"
+#include "board/blinky_led.h"
 
 #include "mcu/mspm0/gpio.h"
 #include "mcu/mspm0/iomux.h"
@@ -53,18 +53,18 @@ void board_blinky_led_init(void)
 	};
 	mspm0_iomux_pincm_init(PIN_LED1_IOMUX_PINCM, &cfg);
 
-	mspm0_gpio_pins_clr(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
+	board_blinky_led_turn_off();
 	mspm0_gpio_pins_output_enable(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
 }
 
 void board_blinky_led_turn_on(void)
 {
-	mspm0_gpio_pins_set(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
+	mspm0_gpio_pins_clr(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
 }
 
 void board_blinky_led_turn_off(void)
 {
-	mspm0_gpio_pins_clr(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
+	mspm0_gpio_pins_set(PIN_LED1_GPIO_INST, PIN_LED1_GPIO_PIN);
 }
 
 void board_blinky_led_toggle(void)

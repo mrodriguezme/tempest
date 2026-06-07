@@ -34,4 +34,6 @@ add_subdirectory(mcu/${TEMPEST_MCU_FAMILY})
 
 target_link_libraries(tempest_board INTERFACE tempest_mcu)
 
+add_subdirectory(drivers)
 add_subdirectory(app)
+

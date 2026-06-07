@@ -22,7 +22,26 @@
 
 #pragma once
 
-#include "config.h"
+#include "common/types.h"
 
-void board_init(void);
-board_tick_type board_ticks_get(void);
+// clang-format off
+
+#ifndef BOARD_CONFIG_TICK_TYPE
+typedef u32 board_tick_type;
+#else
+typedef BOARD_CONFIG_TICK_TYPE board_tick_type;
+#endif // BOARD_CONFIG_TICK_TYPE
+
+#ifndef BOARD_CONFIG_TICK_RATE_MS
+#define BOARD_CONFIG_TICK_RATE_MS	(sec_to_ms(1))
+#endif // BOARD_CONFIG_TICK_RATE_MS
+
+#ifndef BOARD_CONFIG_CPUCLK_FREQ
+#define BOARD_CONFIG_CPUCLK_FREQ	(mhz_to_hz(32))
+#endif // BOARD_CONFIG_CPUCLK_FREQ
+
+#ifndef BOARD_CONFIG_BLINKY_LED
+#define BOARD_CONFIG_BLINKY_LED		(1)
+#endif // BOARD_CONFIG_BLINKY_LED
+
+// clang-format on

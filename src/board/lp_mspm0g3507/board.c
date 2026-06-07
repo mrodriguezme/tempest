@@ -21,20 +21,13 @@
 // SOFTWARE.
 
 #include "board/board.h"
-#include "board/led.h"
+#include "board/blinky_led.h"
 
 #include "mspm0/gpio.h"
 #include "arch/arm/systick.h"
 #include "mcu_specific/intvecs.h"
 
 static board_tick_type board_ticks = 0;
-
-// clang-format off
-
-#define TICK_RATE_MS	(UINT32_C(1000))
-#define CPUCLK_FREQ_HZ	(UINT32_C(32000000))
-
-// clang-format on
 
 void isr_systick(void)
 {
@@ -60,9 +53,10 @@ void board_init(void)
 		// clang-format off
 
 		.clksource	= ARCH_ARM_SYSTICK_USE_CPU_CLK,
-		.reload		= (CPUCLK_FREQ_HZ / TICK_RATE_MS) - 1,
+		.reload		= (BOARD_CONFIG_CPUCLK_FREQ /
+				   BOARD_CONFIG_TICK_RATE_MS) - 1,
 		.tickint	= ARCH_ARM_SYSTICK_INTERRUPT_ENABLE,
-		.nvic_irq	= UINT32_C(1) << EXC_SYSTICK
+		.nvic_irq	= EXC_SYSTICK
 
 		// clang-format on
 	};
