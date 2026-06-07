@@ -30,7 +30,7 @@ void arch_arm_systick_init(const struct arch_arm_systick_cfg *const cfg)
 	mmio_write32(SYST_CVR, 0);
 	mmio_write32(SYST_RVR, cfg->reload & SYST_RVR_RELOAD_MASK);
 
-	if (cfg->clksource == ARCH_ARM_SYSTICK_INTERRUPT_ENABLE) {
+	if (cfg->tickint == ARCH_ARM_SYSTICK_INTERRUPT_ENABLE) {
 		arch_arm_nvic_irq_clear_pending(cfg->nvic_irq);
 		arch_arm_nvic_irq_enable(cfg->nvic_irq);
 	}
