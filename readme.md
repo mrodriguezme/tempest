@@ -10,10 +10,6 @@ this repository as a stable foundation from which I can quickly spin something
 up to write a device driver, experiment with a new board or architecture, or
 explore an idea in general.
 
-The custom HALs and device drivers are written with portability in mind. They
-are designed to be self-contained modules and, where practical, can be dropped
-into other projects with minimal effort.
-
 Although this repository primarily serves as my personal playground, you're
 welcome to use code from this project in your own work under the terms of the
 MIT license. However, you do so at your own risk. I work on tempest in my spare
