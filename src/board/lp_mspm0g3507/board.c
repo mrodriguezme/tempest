@@ -20,12 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "mspm0/gpio.h"
 #include "board/board.h"
 #include "board/led.h"
-#include "arch/arm/systick.h"
 
-static u64 board_ticks = 0;
+#include "mspm0/gpio.h"
+#include "arch/arm/systick.h"
+#include "mcu_specific/intvecs.h"
+
+static board_tick_type board_ticks = 0;
+
+// clang-format off
+
+#define TICK_RATE_MS	(UINT32_C(1000))
+#define CPUCLK_FREQ_HZ	(UINT32_C(32000000))
+
+// clang-format on
 
 void isr_systick(void)
 {
@@ -50,8 +59,10 @@ void board_init(void)
 	const struct arch_arm_systick_cfg cfg = {
 		// clang-format off
 
-		.nvic_irq	= (1 << 15),
-		.reload_val	= (32000000 / 1000) - 1
+		.clksource	= ARCH_ARM_SYSTICK_USE_CPU_CLK,
+		.reload		= (CPUCLK_FREQ_HZ / TICK_RATE_MS) - 1,
+		.tickint	= ARCH_ARM_SYSTICK_INTERRUPT_ENABLE,
+		.nvic_irq	= UINT32_C(1) << EXC_SYSTICK
 
 		// clang-format on
 	};

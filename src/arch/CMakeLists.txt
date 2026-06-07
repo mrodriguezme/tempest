@@ -20,8 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-tempest_arch_core_select(
-	cortex-m0plus
-	FEATURES
-		systick
-)
+foreach(FEATURE IN LISTS TEMPEST_ARCH_FEATURES)
+	string(TOUPPER "${FEATURE}" FEATURE_UPPER)
+	message(STATUS "MCU is enabling feature \"${FEATURE}\"")
+
+	target_compile_definitions(
+		tempest_arch
+		INTERFACE
+		HAVE_${FEATURE_UPPER}=1
+	)
+endforeach()
+
+add_subdirectory(${TEMPEST_ARCH})
+target_link_libraries(tempest_board INTERFACE tempest_arch)
+
+target_compile_options(tempest_arch INTERFACE -mcpu=${TEMPEST_ARCH_CORE})
+target_link_options(tempest_arch INTERFACE -mcpu=${TEMPEST_ARCH_CORE})

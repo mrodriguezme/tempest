@@ -90,34 +90,50 @@
       }
     },
     {
-        "name": "mcu_mspm0g3507",
-        "hidden": true,
-        "description": "MSPM0G3507 MCU",
-        "inherits": ["arch_arm"],
-        "cacheVariables": {
-            "TEMPEST_MCU_FAMILY": {
-                "type": "STRING",
-                "value": "mspm0"
-            },
-            "TEMPEST_MCU_MODEL": {
-              "type": "STRING",
-              "value": "3507"
-            },
-            "TEMPEST_MCU_SERIES": {
-                "type": "STRING",
-                "value": "g"
-            }
+      "name": "mcu_mspm0g3507",
+      "hidden": true,
+      "description": "MSPM0G3507 MCU",
+      "inherits": [
+        "arch_arm"
+      ],
+      "cacheVariables": {
+        "TEMPEST_MCU_FAMILY": {
+          "type": "STRING",
+          "value": "mspm0"
+        },
+        "TEMPEST_MCU_MODEL": {
+          "type": "STRING",
+          "value": "3507"
+        },
+        "TEMPEST_MCU_SERIES": {
+          "type": "STRING",
+          "value": "g"
+        },
+        "TEMPEST_ARCH_CORE": {
+          "type": "STRING",
+          "value": "cortex-m0plus"
+        },
+        "TEMPEST_ARCH_FEATURES": {
+          "type": "STRING",
+          "value": "systick"
         }
+      }
     },
     {
       "name": "board_lp_mspm0g3507",
       "hidden": true,
       "description": "LP-MSPM0G3507 board",
-      "inherits": ["mcu_mspm0g3507"],
+      "inherits": [
+        "mcu_mspm0g3507"
+      ],
       "cacheVariables": {
         "TEMPEST_BOARD": {
           "type": "STRING",
           "value": "lp_mspm0g3507"
+        },
+        "TEMPEST_MCU_PACKAGE": {
+          "type": "STRING",
+          "value": "LQFP64"
         }
       }
     },

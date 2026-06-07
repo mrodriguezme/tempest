@@ -28,13 +28,13 @@
 
 int main(void)
 {
-	board_tick_type next_toggle_ms = board_ticks_get() + 500;
+	board_tick_type next_toggle_ms = board_ticks_get() + 1000;
 
 	for (;;) {
-		if (board_ticks_get() >= next_toggle_ms) {
-			board_blinky_led_toggle();
-			next_toggle_ms += 500;
-		}
+		while (board_ticks_get() <= next_toggle_ms)
+			;
+		board_blinky_led_toggle();
+		next_toggle_ms += 1000;
 	}
 	return EXIT_FAILURE;
 }

@@ -53,12 +53,15 @@
 #define ARCH_ARM_SYSTICK_USE_EXT_CLK	(UINT32_C(0))
 #define ARCH_ARM_SYSTICK_USE_CPU_CLK	(SYST_CSR_CLKSOURCE_BIT)
 
+#define ARCH_ARM_SYSTICK_INTERRUPT_ENABLE	(UINT32_C(1) << 1)
+#define ARCH_ARM_SYSTICK_INTERRUPT_DISABLE	(UINT32_C(0))
+
 // clang-format on
 
 struct arch_arm_systick_cfg {
-	u32 use_external_clk;
-	u32 reload_val;
-	u32 interrupt_enabled;
+	u32 clksource;
+	u32 reload;
+	u32 tickint;
 	u32 nvic_irq;
 };
 

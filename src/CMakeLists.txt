@@ -28,7 +28,7 @@ target_include_directories(tempest_board INTERFACE .)
 target_include_directories(tempest_arch INTERFACE .)
 target_include_directories(tempest_mcu INTERFACE mcu)
 
-add_subdirectory(arch/${TEMPEST_ARCH})
+add_subdirectory(arch)
 add_subdirectory(board/${TEMPEST_BOARD})
 add_subdirectory(mcu/${TEMPEST_MCU_FAMILY})
 

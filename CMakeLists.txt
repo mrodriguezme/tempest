@@ -76,6 +76,8 @@ tempest_check_vars_specified(
 	TEMPEST_MCU_FAMILY
 	TEMPEST_MCU_MODEL
 	TEMPEST_MCU_SERIES
+	TEMPEST_ARCH_CORE
+	TEMPEST_MCU_PACKAGE
 )
 
 add_subdirectory(src)

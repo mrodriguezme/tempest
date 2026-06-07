@@ -26,17 +26,21 @@
 void arch_arm_systick_init(const struct arch_arm_systick_cfg *const cfg)
 {
 	arch_arm_systick_halt(cfg->nvic_irq);
+
 	mmio_write32(SYST_CVR, 0);
+	mmio_write32(SYST_RVR, cfg->reload & SYST_RVR_RELOAD_MASK);
 
-	mmio_write32(SYST_RVR, cfg->reload_val & SYST_RVR_RELOAD_MASK);
-	arch_arm_nvic_irq_enable(cfg->nvic_irq);
+	if (cfg->clksource == ARCH_ARM_SYSTICK_INTERRUPT_ENABLE) {
+		arch_arm_nvic_irq_clear_pending(cfg->nvic_irq);
+		arch_arm_nvic_irq_enable(cfg->nvic_irq);
+	}
 
-	mmio_write32(SYST_CSR, 0x7);
+	mmio_write32(SYST_CSR,
+		     cfg->clksource | cfg->tickint | SYST_CSR_ENABLE_BIT);
 }
 
 void arch_arm_systick_halt(const u32 nvic_irq)
 {
-	arch_arm_nvic_irq_disable(nvic_irq);
 	mmio_clr32(SYST_CSR, SYST_CSR_ENABLE_BIT);
-	arch_arm_nvic_irq_clear_pending(nvic_irq);
+	arch_arm_nvic_irq_disable(nvic_irq);
 }
