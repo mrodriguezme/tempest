@@ -56,8 +56,8 @@ struct drv_blinky_ops {
 
 struct drv_blinky_timing {
 	unsigned int num_blinks;
-	unsigned int period_ticks;
-	unsigned int delay_ticks;
+	drv_blinky_tick_type period_ticks;
+	drv_blinky_tick_type delay_ticks;
 	enum drv_blinky_repeat_mode repeat;
 };
 
